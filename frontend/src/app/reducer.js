@@ -1,21 +1,21 @@
-const test = (state = [], action) => {
+export const test = (state = [], action) => {
   switch (action.type) {
-    case value:
+    case "value":
       break;
 
     default:
-      break;
+      return state;
   }
 };
 
-const test2 = (state = {}, action) => {
+export const test2 = (state = {}, action) => {
   switch (action.type) {
-    case value:
+    case "value":
       break;
 
     default:
-      break;
+      return state;
   }
 };
 
-export default { test, test2 };
+export default test2;
