@@ -7,10 +7,15 @@ var app = express();
 // middlewre
 const morgan = require("morgan");
 app.use(morgan("dev"));
+const cors = require("cors");
+app.use(cors({ origin: "*" }));
+//create body parser instance
 var bodyParser = require("body-parser");
+app.use(bodyParser.json());
+app.use(express.json());
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+//enable url encode for POST requests
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // db connection
 const conn = require("./Config/dbConfig");
@@ -20,7 +25,7 @@ conn();
 app.use(bodyParser.json());
 app.listen(port, console.log(`server is running on ${port}`));
 const chats = require("./Data");
-app.get("/", (req, res) => {
+app.get("/data", (req, res) => {
   res.json(chats);
 });
 console.log(`reached at the end code of node server  `);
