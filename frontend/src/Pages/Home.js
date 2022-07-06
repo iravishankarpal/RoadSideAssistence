@@ -1,10 +1,7 @@
-// import axios from "axios";
 import React from "react";
-// import { Tab, Tabs } from "react-bootstrap";
-// import Login from "../component/Login";
-// import SingUp from "../component/SingUp";
+
 import "./App.css";
-// import styled form "styled-com"
+import Hero from "../images/hero.jpg";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 const Links = styled(Link)`
@@ -22,13 +19,14 @@ const Links = styled(Link)`
 const Row = styled.div`
   background-color: white;
   padding: 2rem;
-  min-height: 100vh;
+  min-height: 99vh;
 `;
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  min-height: 100vh;
+  min-height: max-content;
   align-items: center;
+  overflow-y: hidden;
 `;
 const Title = styled.div`
   font-size: 2rem;
@@ -36,7 +34,7 @@ const Title = styled.div`
 `;
 const Main = styled.div`
   padding-top: 1rem;
-  background-image: url("https://www.volkswagen.co.uk/content/dam/onehub_pkw/importers/gb/owners/roadside-assistance/owners_drivers-roadside_assistance-hero_v2-16_9-1920x1080.jpg");
+  background-image: url(${Hero});
   background-position: center;
   background-repeat: no-repeat;
   background-image: cover;
@@ -46,7 +44,6 @@ const HeroSay = styled.div`
   color: white;
   position: relative;
   top: 4rem;
-  /* background-color: white; */
 `;
 function Home() {
   return (
@@ -61,7 +58,7 @@ function Home() {
           <Outlet></Outlet>
         </Row>
         <Title className="col-md-8">
-          <HeroSay>A Quick Solution To All your rode side need </HeroSay>
+          <HeroSay> </HeroSay>
         </Title>
       </Container>
     </Main>

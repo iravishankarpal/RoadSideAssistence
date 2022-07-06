@@ -4,12 +4,8 @@ dotenv.config();
 
 const port = process.env.PORT || 5000;
 var app = express();
-// middlewre
-const morgan = require("morgan");
-app.use(morgan("dev"));
-const cors = require("cors");
-app.use(cors({ origin: "*" }));
-//create body parser instance
+
+// /create body parser instance
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(express.json());
@@ -28,4 +24,13 @@ const chats = require("./Data");
 app.get("/data", (req, res) => {
   res.json(chats);
 });
-console.log(`reached at the end code of node server  `);
+// console.log(`reached at the end code of node server  `);
+
+// middlewre
+const morgan = require("morgan");
+app.use(morgan("dev"));
+const cors = require("cors");
+app.use(cors({ origin: "*" }));
+const { userAuthRoutes } = require("./Routes/UserAuthRoute");
+
+app.use("/UserAuth", userAuthRoutes);
