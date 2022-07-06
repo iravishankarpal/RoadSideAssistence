@@ -1,0 +1,16 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+Tabs {
+  width: 10% !important;
+  background-color: red !important;
+}
+Tab {
+  width: 50% !important;
+}
+body {
+  background-color: rgb(228, 228, 228);
+  min-height: 90vh;
+}

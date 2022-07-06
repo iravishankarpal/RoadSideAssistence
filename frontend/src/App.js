@@ -1,17 +1,27 @@
-import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
-import Header from "./component/Header";
-import Footer from "./component/Footer";
+// import Header from "./component/Header";
+// import Footer from "./component/Footer";
+import Chat from "./Pages/Chat";
+import SingUp from "./component/SingUp";
+import Login from "./component/Login";
+import NoMatch from "./Pages/NoMatch";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header></Header>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Home />}>
+            <Route index element={<Navigate to="Login" replace />} />
+            <Route path="Login" element={<Login />} />
+            <Route path="Singup" element={<SingUp />} />
+            <Route path="*" element={<NoMatch />} />
+          </Route>
+
+          <Route path="/Chat" element={<Chat />} />
+
+          <Route path="*" element={<NoMatch />} />
         </Routes>
-        <Footer></Footer>
       </BrowserRouter>
     </div>
   );
