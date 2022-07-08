@@ -1,30 +1,23 @@
-import React, { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import Error from "./Error";
 import Loding from "./Loding";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import IsLogin from "./IsLogin";
+import GoogleAuth from "./GoogleAuth";
 function Login() {
-  const navigate = useNavigate();
   const email = useRef();
   const password = useRef();
-
-  const { error, loding, token } = useSelector((state) => state.login);
-  // console.log("error, loding  :", error, loding);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (token !== null || localStorage.getItem("RSA")) {
-      navigate("/Chat");
-    }
-  }, [token]);
+  const { error, loding } = useSelector((state) => state.login);
+  IsLogin();
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
       dispatch({ type: "USER_LOGIN_REQUEST" });
-      console.log("email :", email.current.value);
-      console.log("password :", password.current.value);
+
       await axios
         .post("UserAuth/Login", {
           email: email.current.value,
@@ -37,6 +30,7 @@ function Login() {
           dispatch({ type: "USER_LOGIN_FAIL", payload: err.response.data });
         });
     } catch (error) {
+      dispatch({ type: "USER_LOGIN_FAIL", payload: error.response.data });
       console.log(`error is occuered while fetching data ${error}`);
     }
   };
@@ -59,12 +53,10 @@ function Login() {
           </Form.Text>
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="container">
           Login
         </Button>
-        {/* <Button variant="danger" className="mx-2" type="submit">
-          Login with Google
-        </Button> */}
+        <GoogleAuth />
       </Form>
     </div>
   );

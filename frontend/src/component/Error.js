@@ -5,13 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 function Error() {
   var { message, error } = useSelector((state) => state.login);
   const dispatch = useDispatch();
-  setTimeout(() => dispatch("RESET_ERROR"), 5000);
+  setTimeout(() => {
+    dispatch({ type: "RESET_ERROR" });
+  }, 6000);
   return (
     <div>
       <Row>
         <Col>
           {error && (
-            <Button disabled variant="danger">
+            <Button disabled className="container" variant="danger">
               {" "}
               {message}{" "}
             </Button>

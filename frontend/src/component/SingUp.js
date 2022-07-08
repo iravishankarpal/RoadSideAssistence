@@ -1,61 +1,65 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Error from "./Error";
 import Loding from "./Loding";
+import IsLogin from "./IsLogin";
+import GoogleAuth from "./GoogleAuth";
 
 function SingUp() {
-  const navigate = useNavigate();
   const name = useRef();
   const email = useRef();
   const password = useRef();
   const rePassword = useRef();
   const Pic = useRef();
 
-  const { error, loding, token } = useSelector((state) => state.login);
-  // console.log("error, loding  :", error, loding);
+  const { error, loding } = useSelector((state) => state.login);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (token) {
-      navigate("/Chat");
-    }
-  }, [token]);
+
+  IsLogin();
   const handleSingup = async (e) => {
+    // console.log(
+    //   "password.current.vaule == rePassword.current.value :",
+    //   password.current.value,
+    //   rePassword.current.value
+    // );
     try {
       e.preventDefault();
       if (
-        password.current.value === rePassword.current.value &&
-        ((password.current.value ||
-          name.current.value ||
-          email.current.value) != "" ||
-          null)
+        (password.current.value &&
+          name.current.value &&
+          email.current.value) !== ""
       ) {
-        await axios
-          .post("/UserAuth/Register", {
-            name: name.current.value,
-            email: email.current.value,
-            password: password.current.value,
-            pic: Pic.current.value,
-          })
-          .then((res) => {
-            dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
-          })
-          .catch((err) =>
-            dispatch({ type: "USER_LOGIN_FAIL", payload: err.response.data })
-          );
+        if (password.current.value === rePassword.current.value) {
+          await axios
+            .post("/UserAuth/Register", {
+              name: name.current.value,
+              email: email.current.value,
+              password: password.current.value,
+              pic: Pic.current.value,
+            })
+            .then((res) => {
+              dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
+            })
+            .catch((err) =>
+              dispatch({ type: "USER_LOGIN_FAIL", payload: err.response.data })
+            );
+        } else {
+          dispatch({
+            type: "USER_LOGIN_FAIL",
+            payload: "password did not match",
+          });
+        }
       } else {
         dispatch({
           type: "USER_LOGIN_FAIL",
-          payload: "passowrd not match or field is missing",
+          payload: "field is missing",
         });
       }
     } catch (error) {
-      dispatch({
-        type: "USER_LOGIN_FAIL",
-        payload: error,
-      });
+      dispatch({ type: "USER_LOGIN_FAIL", payload: error.response.data });
+      console.log(error);
     }
   };
   return (
@@ -87,11 +91,11 @@ function SingUp() {
           <Form.Label>Profile pic</Form.Label>
           <Form.Control type="file" ref={Pic} placeholder="profile.png" />
         </Form.Group>
-        <Button className="" variant="primary" type="submit">
+        <Button className="container" variant="primary" type="submit">
           Submit
         </Button>{" "}
         <Button
-          className="m-2"
+          className="my-2 container"
           variant="warning"
           onClick={() => {
             name.current.value = "";
@@ -103,9 +107,7 @@ function SingUp() {
         >
           Reset
         </Button>{" "}
-        {/* <Button className="m-2" variant="danger" type="submit">
-          SingUp with Google
-        </Button> */}
+        <GoogleAuth></GoogleAuth>
       </Form>
     </div>
   );

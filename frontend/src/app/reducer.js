@@ -1,5 +1,11 @@
 export const login = (
-  state = { error: false, loding: false, token: null },
+  state = {
+    error: false,
+    loding: false,
+    token: localStorage.getItem("RSA")
+      ? JSON.parse(localStorage.getItem("RSA")).token
+      : null,
+  },
   action
 ) => {
   switch (action.type) {

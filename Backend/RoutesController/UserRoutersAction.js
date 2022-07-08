@@ -18,7 +18,7 @@ const userLoginHandler = async (req, res) => {
         res.status(409).send("wrong password ");
       }
     } else {
-      res.status(409).send("user not exist ");
+      res.status(409).send("user not exist register login ");
     }
   } catch (error) {
     res.status(500).send("trych server error");
@@ -30,7 +30,7 @@ const userRegisterHandler = async (req, res) => {
     const { name, email, pic, password } = req.body;
     const userExist = await User.findOne({ email });
     if (userExist) {
-      res.status(409).send("user already exist");
+      res.status(409).send("user already exist Please login");
     } else {
       const user = await User.create({ name, email, pic, password });
       if (user) {
@@ -57,4 +57,32 @@ const userRegisterHandler = async (req, res) => {
   }
 };
 
-module.exports = { userLoginHandler, userRegisterHandler };
+const userGoogleAuthHandler=async(req,res)=>{
+   const { name, email, pic } = req.body;
+  await User.findOne({email}).then((user)=>{
+    res.status(200).send({
+      name: user.name,
+      email: user.email,
+      pic: user.pic,
+      token: generateToken(user._id),
+    });
+  }).catch((err)=>{
+    User.create({ name,email,pic}).then((user)=>{
+      res.status(200).send({
+        name: user.name,
+        email: user.email,
+        pic: user.pic,
+        token: generateToken(user._id),
+
+      })
+    }).catch((error)=>{
+      res.status(404).send(`error google auth ${error}`)
+    })
+  })
+}
+
+module.exports = {
+  userLoginHandler,
+  userRegisterHandler,
+  userGoogleAuthHandler,
+};
