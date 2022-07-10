@@ -5,7 +5,7 @@ function IsLogin() {
   const { token } = useSelector((state) => state.login);
   useEffect(() => {
     if (token !== null) {
-      window.location.replace("/Chat");
+      window.location.replace("/MainMap");
     }
   }, [token]);
 

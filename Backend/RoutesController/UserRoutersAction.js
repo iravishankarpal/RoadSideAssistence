@@ -57,29 +57,32 @@ const userRegisterHandler = async (req, res) => {
   }
 };
 
-const userGoogleAuthHandler=async(req,res)=>{
-   const { name, email, pic } = req.body;
-  await User.findOne({email}).then((user)=>{
-    res.status(200).send({
-      name: user.name,
-      email: user.email,
-      pic: user.pic,
-      token: generateToken(user._id),
-    });
-  }).catch((err)=>{
-    User.create({ name,email,pic}).then((user)=>{
+const userGoogleAuthHandler = async (req, res) => {
+  const { name, email, pic } = req.body;
+  await User.findOne({ email })
+    .then((user) => {
       res.status(200).send({
         name: user.name,
         email: user.email,
         pic: user.pic,
         token: generateToken(user._id),
-
-      })
-    }).catch((error)=>{
-      res.status(404).send(`error google auth ${error}`)
+      });
     })
-  })
-}
+    .catch((err) => {
+      User.create({ name, email, pic })
+        .then((user) => {
+          res.status(200).send({
+            name: user.name,
+            email: user.email,
+            pic: user.pic,
+            token: generateToken(user._id),
+          });
+        })
+        .catch((error) => {
+          res.status(404).send(`error google auth ${error}`);
+        });
+    });
+};
 
 module.exports = {
   userLoginHandler,

@@ -15,23 +15,34 @@ function Login() {
   IsLogin();
   const handleLogin = async (e) => {
     try {
-      e.preventDefault();
-      dispatch({ type: "USER_LOGIN_REQUEST" });
-
-      await axios
-        .post("UserAuth/Login", {
-          email: email.current.value,
-          password: password.current.value,
-        })
-        .then((res) => {
-          dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
-        })
-        .catch((err) => {
-          dispatch({ type: "USER_LOGIN_FAIL", payload: err.response.data });
-        });
     } catch (error) {
       dispatch({ type: "USER_LOGIN_FAIL", payload: error.response.data });
-      console.log(`error is occuered while fetching data ${error}`);
+    }
+    try {
+      e.preventDefault();
+      if ((password.current.value && email.current.value) !== "") {
+        e.preventDefault();
+        dispatch({ type: "USER_LOGIN_REQUEST" });
+
+        await axios
+          .post("UserAuth/Login", {
+            email: email.current.value,
+            password: password.current.value,
+          })
+          .then((res) => {
+            dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
+          })
+          .catch((err) => {
+            dispatch({ type: "USER_LOGIN_FAIL", payload: err.response.data });
+          });
+      } else {
+        dispatch({
+          type: "USER_LOGIN_FAIL",
+          payload: "email or password is empty",
+        });
+      }
+    } catch (error) {
+      dispatch({ type: "USER_LOGIN_FAIL", payload: error.response.data });
     }
   };
 
@@ -56,7 +67,8 @@ function Login() {
         <Button variant="primary" type="submit" className="container">
           Login
         </Button>
-        <GoogleAuth />
+        <br className="m-3" />
+        <GoogleAuth className="mt-3" />
       </Form>
     </div>
   );
