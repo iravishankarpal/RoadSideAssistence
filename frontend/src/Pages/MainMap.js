@@ -2,14 +2,20 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
-  Marker,
   Autocomplete,
   DirectionsRenderer,
+  Marker,
 } from "@react-google-maps/api";
 import { BiCurrentLocation, BiSubdirectoryLeft } from "react-icons/bi";
 import "./App.css";
+// import { Link, Outlet } from "react-router-dom";
+
 import styled from "styled-components";
 import Loding from "../component/Loding";
+import { Button } from "react-bootstrap";
+import Help from "../component/Help";
+// import Options from "../component/Options";
+// import { Outlet } from "react-router-dom";
 const InCenterOfPage = styled.div`
   height: 100vh;
   font-size: 10rem;
@@ -21,7 +27,7 @@ const InputsAreas = styled.div`
   margin: 3px;
   display: flex;
   flex-direction: row;
-  min-width: 98vw;
+  min-width: 100vw;
   & > Autocomplete > input,
   & > div {
     margin-inline: auto;
@@ -39,10 +45,13 @@ const InputsAreas = styled.div`
     flex-direction: column;
     & > input,
     & > div {
-      width: 90%;
+      width: 99%;
+      padding: 0.1rem;
+      margin: 0.1rem;
     }
   }
 `;
+
 function MainMap() {
   const [map, setmap] = useState(/** @type Google.maps.Map */ null);
   const [Distance, setDistance] = useState(null);
@@ -123,16 +132,23 @@ function MainMap() {
         </InputsAreas>
 
         <GoogleMap
-          zoom={17}
+          zoom={18}
           center={center}
           mapContainerClassName="map-container"
           onLoad={(map) => setmap(map)}
+          options={{
+            zoomControl: false,
+            streetViewControl: false,
+            mapTypeControl: false,
+            fullscreenControl: false,
+          }}
         >
           <Marker position={center} />
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
           )}
         </GoogleMap>
+        <Help></Help>
       </div>
     );
 }

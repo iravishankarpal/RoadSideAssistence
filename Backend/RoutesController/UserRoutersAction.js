@@ -23,7 +23,6 @@ const userLoginHandler = async (req, res) => {
   } catch (error) {
     res.status(500).send("trych server error");
   }
-  //   res.send("login");
 };
 const userRegisterHandler = async (req, res) => {
   try {
@@ -34,17 +33,12 @@ const userRegisterHandler = async (req, res) => {
     } else {
       const user = await User.create({ name, email, pic, password });
       if (user) {
-        res.status(200).send(
-          //   user
-          //   ,
-          {
-            name: user.name,
-            email: user.email,
-            pic: user.pic,
-            token: generateToken(user._id),
-            //   timestamp: user.createdAt,
-          }
-        );
+        res.status(200).send({
+          name: user.name,
+          email: user.email,
+          pic: user.pic,
+          token: generateToken(user._id),
+        });
       } else {
         res.json({
           status: 400,
@@ -84,8 +78,35 @@ const userGoogleAuthHandler = async (req, res) => {
     });
 };
 
+const Mechanic = require("../Model/MechanicMode");
+const userMechanicLogin = async (req, res) => {
+  try {
+    const { Mech, password } = req.body;
+    const userExit = await Mechanic.findOne({ Mech });
+
+    if (userExit) {
+      if (userExit.password === password) {
+        res.status(200).send({
+          Mechanic: userExit.name,
+          email: userExit.email,
+          pic: userExit.pic,
+          Token: generateToken(userExit._id),
+          //   timestamp: user.createdAt,
+        });
+      } else {
+        res.status(409).send("wrong password");
+      }
+    } else {
+      res.status(409).send("user not exist register login ");
+    }
+  } catch (error) {
+    res.status(500).send("trych server error");
+  }
+  res.send("route is working");
+};
 module.exports = {
   userLoginHandler,
   userRegisterHandler,
   userGoogleAuthHandler,
+  userMechanicLogin,
 };

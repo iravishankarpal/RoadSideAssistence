@@ -5,12 +5,12 @@ import Hero from "../images/hero.jpg";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
 const Links = styled(Link)`
-  width: 50%;
+  /* width: 50%; */
   background-color: white;
   padding: 0.2em 1em;
   text-decoration: none;
   color: black;
-  font-size: 2rem;
+  font-size: 1rem;
   text-align: center;
   &:hover {
     background-color: whitesmoke;
@@ -54,6 +54,7 @@ function Home() {
           <div className="d-flex mb-3 ">
             <Links to="login"> Login </Links>
             <Links to="singup"> SingUp </Links>
+            <Links to="Mechanic"> Cooperate Login </Links>
           </div>
           <Outlet></Outlet>
         </Row>
