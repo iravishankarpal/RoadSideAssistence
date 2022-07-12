@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useMemo, useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { BiCurrentLocation } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,13 +7,7 @@ import Error from "./Error";
 import Loding from "./Loding";
 
 function Problem() {
-  // const [Location,setLocation] = useState({lat:'',lng:''});
-  const Location = useRef({ lat: "", lng: "" });
-
-  const [lng, setlng] = useState();
-
-  const [lat, setlat] = useState();
-
+  const Location = useRef();
   const PhoneNo = useRef();
   const VehicalNo = useRef();
   const VehicalType = useRef();
@@ -25,15 +19,14 @@ function Problem() {
   //   IsLogin();
   const handleUserQuery = async (e) => {
     try {
-      console.log(lat, lng, Location.current.value);
+      // console.log(Location.current.value);
       e.preventDefault();
       if (
-        ((PhoneNo.current.value &&
+        (PhoneNo.current.value &&
           VehicalNo.current.value &&
           VehicalProblem.current.value &&
-          VehicalType.current.value) !== "" &&
-          Location.current.value) ||
-        Location.current.placeholder !== ""
+          VehicalType.current.value &&
+          Location.current.value) !== ""
       ) {
         await axios
           .post("/UserAuth/", {
@@ -42,8 +35,6 @@ function Problem() {
             VehicalNo: VehicalNo.current.value,
             VehicalType: VehicalType.current.value,
             VehicalProblem: VehicalProblem.current.value,
-            lat,
-            lng,
           })
           .then((res) => {
             dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
@@ -67,14 +58,13 @@ function Problem() {
   };
   const Currentlocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      setlat(position.coords.latitude);
-      setlng(position.coords.longitude);
+      Location.current.lat = position.coords.latitude;
+      Location.current.lng = position.coords.longitude;
     });
-    Location.current.value = `${lat}, ${lng}`;
+    // Location.current.value = `${Location.current.lat}, ${Location.current.lng}`;
+    // console.log("userQuery", );
   };
-  useEffect(() => {
-    Currentlocation();
-  }, []);
+  useMemo(Currentlocation, [Location]);
 
   return (
     <div>
@@ -106,13 +96,15 @@ function Problem() {
             type="text"
             ref={Location}
             placeholder={
-              lng == undefined ? "land mark , city " : `${lat}, ${lng}`
+              Location.current.lat === undefined
+                ? "land mark , city "
+                : `${Location.current.lat}, ${Location.current.lng}`
             }
           />
           <Form.Label> auto Detect </Form.Label>
           <BiCurrentLocation
             style={{ fontSize: "2rem" }}
-            onClick={Currentlocation()}
+            onClick={() => Currentlocation()}
           ></BiCurrentLocation>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">

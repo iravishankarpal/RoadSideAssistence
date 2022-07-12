@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Error from "./Error";
 import Loding from "./Loding";
 
@@ -9,35 +10,50 @@ function MechanicLogin() {
   const Mech = useRef();
   const password = useRef();
   const dispatch = useDispatch();
+  const navigation = useNavigate();
 
   const { error, loding } = useSelector((state) => state.login);
   //  IsLogin();
   const handleLogin = async (e) => {
     try {
-    } catch (error) {
-      dispatch({ type: "USER_LOGIN_FAIL", payload: error.response.data });
-    }
-    try {
       e.preventDefault();
       if ((password.current.value && Mech.current.value) !== "") {
         e.preventDefault();
         dispatch({ type: "USER_LOGIN_REQUEST" });
-
-        await axios
-          .post("UserAuth/MechanicLogin", {
-            Mech: Mech.current.value,
-            password: password.current.value,
-          })
-          .then((res) => {
-            console.log(res.data);
-            dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
-          })
-          .catch((err) => {
-            dispatch({
-              type: "USER_LOGIN_FAIL",
-              payload: err.response.data,
+        if (Mech.current.value === "admin") {
+          await axios
+            .post("UserAuth/AdminLogin", {
+              Mech: Mech.current.value,
+              password: password.current.value,
+            })
+            .then(() => {
+              dispatch({ type: "USER_LOGIN_SUCCESS" });
+              navigation("/Admin");
+            })
+            .catch((err) => {
+              console.log(err.response.data);
+              dispatch({
+                type: "USER_LOGIN_FAIL",
+                payload: err.response.data,
+              });
             });
-          });
+        } else {
+          await axios
+            .post("UserAuth/MechanicLogin", {
+              Mech: Mech.current.value,
+              password: password.current.value,
+            })
+            .then((res) => {
+              console.log(res.data);
+              dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
+            })
+            .catch((err) => {
+              dispatch({
+                type: "USER_LOGIN_FAIL",
+                payload: err.response.data,
+              });
+            });
+        }
       } else {
         dispatch({
           type: "USER_LOGIN_FAIL",

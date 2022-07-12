@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 function IsLogin() {
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.login);
-  useEffect(() => {
+  useMemo(() => {
     if (token !== null) {
-      window.location.replace("/MainMap");
+      navigate("/MainMap");
+    } else {
+      navigate("/");
     }
-  }, [token]);
+  }, [token, navigate]);
 
   return <></>;
 }

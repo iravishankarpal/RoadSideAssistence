@@ -13,7 +13,7 @@ function Error() {
       <Row>
         <Col>
           {error && (
-            <Button disabled className="container" variant="danger">
+            <Button disabled className="container m-1" variant="danger">
               {" "}
               {message}{" "}
             </Button>

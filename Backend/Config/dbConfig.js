@@ -13,7 +13,7 @@ const conn = async () => {
         );
       })
       .catch((err) => {
-        console.log(err, " an error occurren while connecting to db");
+        console.log(err.message, " an error occurred while connecting to db");
       });
   } catch (error) {
     console.log(`try catch error while connect to db  ${error}`);

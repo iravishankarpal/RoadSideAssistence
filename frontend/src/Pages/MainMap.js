@@ -12,7 +12,7 @@ import "./App.css";
 
 import styled from "styled-components";
 import Loding from "../component/Loding";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import Help from "../component/Help";
 // import Options from "../component/Options";
 // import { Outlet } from "react-router-dom";
@@ -67,6 +67,8 @@ function MainMap() {
       navigator.geolocation.getCurrentPosition((position) => {
         setLatitute(position.coords.latitude);
         setLongitute(position.coords.longitude);
+        console.log("in main map current location")
+        // console.log(Latitute, Longitute);
       });
     };
     currentPostion();
@@ -132,7 +134,7 @@ function MainMap() {
         </InputsAreas>
 
         <GoogleMap
-          zoom={18}
+          zoom={13}
           center={center}
           mapContainerClassName="map-container"
           onLoad={(map) => setmap(map)}

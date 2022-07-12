@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { GiHelp } from "react-icons/gi";
+import { BsChatLeftTextFill } from "react-icons/bs";
 import { Button } from "react-bootstrap";
 const HelpBtn = styled.span`
-  padding: 0.2rem;
+  padding: 1rem;
   background-color: white;
   color: black;
   position: fixed;
@@ -22,8 +22,8 @@ const LinkTo = styled(Link)`
 `;
 const PopUpBox = styled.div`
   position: absolute;
-  left: 2rem;
-  bottom: 2rem;
+  left: 3rem;
+  bottom: 3rem;
   background-color: white;
   color: black;
   /* max-width: 30vw; */
@@ -34,6 +34,7 @@ const PopUpBox = styled.div`
 
   @media (max-width: 786px) {
     max-width: 90%;
+    min-width: 80vw;
   }
 `;
 
@@ -65,7 +66,7 @@ function Help() {
           //   console.log(show);
         }}
       >
-        <GiHelp></GiHelp>
+        <BsChatLeftTextFill></BsChatLeftTextFill>
       </HelpBtn>
     </div>
   );

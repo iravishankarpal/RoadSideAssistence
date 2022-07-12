@@ -7,8 +7,9 @@ import MainMap from "./Pages/MainMap";
 import SingUp from "./component/SingUp";
 import Login from "./component/Login";
 import NoMatch from "./Pages/NoMatch";
-import Problem from "./component/Problem";
+import Problem from "./component/UserQuery";
 import MechanicLogin from "./component/MechanicLogin";
+import Admin from "./Pages/Admin";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
             <Route path="Chat" element={<Chat />} />
             <Route path="Problem" element={<Problem />} />
           </Route>
+          <Route path="/Admin" element={<Admin />} />
+
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </BrowserRouter>

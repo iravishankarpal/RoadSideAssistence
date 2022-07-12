@@ -14,15 +14,23 @@ export const login = (
     case "USER_LOGIN_FAIL":
       return { ...state, error: true, message: action.payload, loding: false };
     case "USER_LOGIN_SUCCESS":
-      const user = JSON.stringify(action.payload);
-      localStorage.setItem("RSA", user);
+      if (action.payload !== undefined) {
+        const user = JSON.stringify(action.payload);
+        localStorage.setItem("RSA", user);
+        return {
+          ...state,
+          loding: false,
+          error: false,
+          token: action.payload.token,
+        };
+      } else {
+        return {
+          ...state,
+          loading: false,
+          error: false,
+        };
+      }
 
-      return {
-        ...state,
-        loding: false,
-        error: false,
-        token: action.payload.token,
-      };
     case "USER_LOGOUT":
       localStorage.removeItem("RSA");
       return state;
