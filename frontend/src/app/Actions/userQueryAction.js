@@ -13,7 +13,7 @@ export const handleUserQuery =
   ) =>
   async (dispatch) => {
     try {
-      // console.log(Location.current.value);
+      console.log(Location.current.value);
       e.preventDefault();
       if (
         (PhoneNo.current.value &&
