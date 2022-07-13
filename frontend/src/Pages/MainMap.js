@@ -59,20 +59,20 @@ function MainMap() {
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const originRef = useRef();
   const destiantionRef = useRef();
-  const [Latitute, setLatitute] = useState(19.076);
-  const [Longitute, setLongitute] = useState(72.8777);
+  const [Latitute, setLatitute] = useState();
+  const [Longitute, setLongitute] = useState();
 
   useEffect(() => {
     const currentPostion = () => {
       navigator.geolocation.getCurrentPosition((position) => {
         setLatitute(position.coords.latitude);
         setLongitute(position.coords.longitude);
-        console.log("in main map current location")
-        // console.log(Latitute, Longitute);
+        // console.log("in main map current location");
+        console.log(Latitute, Longitute);
       });
     };
     currentPostion();
-  }, []);
+  }, [Latitute, Longitute]);
   const center = useMemo(
     () => ({ lat: Latitute, lng: Longitute }),
     [Latitute, Longitute]

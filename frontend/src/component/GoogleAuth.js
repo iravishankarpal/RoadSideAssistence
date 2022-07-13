@@ -12,21 +12,13 @@ const GoogleAuthContainer = styled.div`
 `;
 function GoogleAuth() {
   const dispatch = useDispatch();
-  // const handleGoogleAuth = async () => {
-  //   try {
-  //     dispatch({ type: "USER_LOGIN_REQUEST" });
-  //   } catch (error) {
-  //     dispatch({ type: "USER_LOGIN_FAIL", payload: "error" });
-  //   }
-  // };
+
   const clientId =
     "91269092486-rel0vhark3mdfiln5si06506lge1t397.apps.googleusercontent.com";
 
   useEffect(() => {
-    // var scopes = "";
-    const start = async () => {
-      await gapi.client.init({ clientId: clientId, scope: "" });
-      // await gapi.loadAuth2(gapi, clientId, scopes);
+    const start = () => {
+      gapi.client.init({ clientId: clientId, scope: "" });
     };
     gapi.load("client:auth2", start);
   }, []);
@@ -37,7 +29,6 @@ function GoogleAuth() {
       data-type="standard"
     >
       <GoogleLogin
-        // onClick={handleGoogleAuth}
         clientId={clientId}
         buttonText="Sign In"
         onSuccess={async (res) => {
@@ -59,7 +50,7 @@ function GoogleAuth() {
         }}
         onFailure={(res) => {
           // console.log(res.error);
-          console.log(res);
+          console.error(`res`, res);
           dispatch({
             type: "USER_LOGIN_FAIL",
             payload: `google login fail ${res.error}`,
