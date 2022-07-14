@@ -14,6 +14,7 @@ import styled from "styled-components";
 import Loding from "../component/Loding";
 // import { Button } from "react-bootstrap";
 import Help from "../component/Help";
+import { useDispatch } from "react-redux";
 // import Options from "../component/Options";
 // import { Outlet } from "react-router-dom";
 const InCenterOfPage = styled.div`
@@ -59,8 +60,9 @@ function MainMap() {
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const originRef = useRef();
   const destiantionRef = useRef();
-  const [Latitute, setLatitute] = useState();
-  const [Longitute, setLongitute] = useState();
+  const [Latitute, setLatitute] = useState(20.5937);
+  const [Longitute, setLongitute] = useState(78.9629);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const currentPostion = () => {
@@ -68,13 +70,18 @@ function MainMap() {
         setLatitute(position.coords.latitude);
         setLongitute(position.coords.longitude);
         // console.log("in main map current location");
-        console.log(Latitute, Longitute);
+        // console.log(Latitute, Longitute);
+        dispatch({
+          type: "SET_USER_COOD",
+          payload: { lat: Latitute, lng: Longitute },
+        });
       });
     };
     currentPostion();
-  }, [Latitute, Longitute]);
+  }, [Latitute, Longitute, dispatch]);
   const center = useMemo(
     () => ({ lat: Latitute, lng: Longitute }),
+
     [Latitute, Longitute]
   );
   const { isLoaded } = useJsApiLoader({
@@ -134,7 +141,7 @@ function MainMap() {
         </InputsAreas>
 
         <GoogleMap
-          zoom={13}
+          zoom={18}
           center={center}
           mapContainerClassName="map-container"
           onLoad={(map) => setmap(map)}

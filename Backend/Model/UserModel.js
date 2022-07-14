@@ -13,6 +13,10 @@ const UserModel = mongoose.Schema(
       type: String,
       require: true,
     },
+    PhoneNo: {
+      type: Number,
+      require: true,
+    },
     pic: {
       type: String,
       default:

@@ -4,7 +4,7 @@ const User = require("../Model/UserModel");
 const userLoginHandler = async (req, res) => {
   try {
     const { email, password } = req.body;
-    if ((email && password === "") || null) {
+    if (email && password === "") {
       res.status(409).send("fields cannot be empty");
     } else {
       const userExit = await User.findOne({ email });
@@ -30,28 +30,28 @@ const userLoginHandler = async (req, res) => {
 };
 const userRegisterHandler = async (req, res) => {
   try {
-    const { name, email, pic, password } = req.body;
-    if ((email && name && password === "") || null) {
+    const { name, email, pic, password, PhoneNo } = req.body;
+    if (email && name && password === "") {
       res.status(409).send("fields cannot be empty");
     } else {
       const userExist = await User.findOne({ email });
       if (userExist) {
         res.status(409).send("user already exist Please login");
       } else {
-        const user = await User.create({ name, email, pic, password });
-        if (user) {
-          res.status(200).send({
-            name: user.name,
-            email: user.email,
-            pic: user.pic,
-            token: generateToken(user._id),
+        await User.create({ name, email, pic, password, PhoneNo })
+          .then((user) => {
+            console.log(user);
+            res.status(200).send({
+              name: user.name,
+              email: user.email,
+              pic: user.pic,
+              PhoneNo: user.PhoneNo,
+              token: generateToken(user._id),
+            });
+          })
+          .catch((err) => {
+            res.status(400).send(`internal server err ${err}`);
           });
-        } else {
-          res.json({
-            status: 400,
-            message: "error occured while summiting",
-          });
-        }
       }
     }
   } catch (error) {
@@ -62,7 +62,7 @@ const userRegisterHandler = async (req, res) => {
 const userGoogleAuthHandler = async (req, res) => {
   try {
     const { name, email, pic } = req.body;
-    if ((email && name && pic === "") || null) {
+    if (email && name && pic === "") {
       res.status(409).send("fields cannot be empty");
     } else {
       await User.findOne({ email })
@@ -75,17 +75,42 @@ const userGoogleAuthHandler = async (req, res) => {
           });
         })
         .catch((err) => {
-          User.create({ name, email, pic })
+          res.status(404).send(` you email is not found`);
+        });
+    }
+  } catch (error) {
+    console.log("try catch in userGoogleAuthHandler block", error);
+  }
+};
+const userGoogleAuthRegisterHandler = async (req, res) => {
+  try {
+    const { name, email, pic } = req.body;
+    if (email && name && pic === "") {
+      res.status(409).send("fields cannot be empty");
+    } else {
+      await User.findOne({ email })
+        .then((user) => {
+          res.status(200).send({
+            name: user.name,
+            email: user.email,
+            pic: user.pic,
+            token: generateToken(user._id),
+          });
+        })
+        .catch(async (err) => {
+          await User.create({ name, email, pic, password, PhoneNo })
             .then((user) => {
+              console.log(user);
               res.status(200).send({
                 name: user.name,
                 email: user.email,
                 pic: user.pic,
+                PhoneNo: user.PhoneNo,
                 token: generateToken(user._id),
               });
             })
-            .catch((error) => {
-              res.status(404).send(`error google auth  ${error}`);
+            .catch((err) => {
+              res.status(400).send(`internal server err ${err}`);
             });
         });
     }
@@ -100,7 +125,7 @@ const userMechanicLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     // console.log("Mech, password :", typeof Mech, password);
-    if ((email && password === "") || null) {
+    if (email && password === "") {
       res.status(409).send("fields cannot be empty");
     } else {
       const userExit = await Mechanic.findOne({ email });
@@ -130,7 +155,7 @@ const AdminLogin = (req, res) => {
   try {
     const { Mech, password } = req.body;
     // console.log("Mech, password  :", Mech, password);
-    if ((Mech && password === "") || null) {
+    if (Mech && password === "") {
       res.status(409).send("fields cannot be empty");
     } else {
       if (Mech === "admin" && password === "password") {
@@ -143,38 +168,11 @@ const AdminLogin = (req, res) => {
     console.log("trycatch error in Admin login", error);
   }
 };
-const AdminMechRegister = async (req, res) => {
-  try {
-    const { Mech, email, PhoneNo, password, pic } = req.body;
-    if ((Mech && email && PhoneNo && password === "") || null) {
-      res.status(409).send("fields cannot be empty");
-    } else {
-      const userExist = await Mechanic.findOne({ email });
-      if (userExist) {
-        res.status(409).send("user already exist Please login");
-      } else {
-        await Mechanic.create({ Mech, email, PhoneNo, password, pic })
-          .then((x) => {
-            res.status(200).send("user is created ");
-          })
-          .catch((err) => {
-            res.status(409).send(`error occuer while submiting ${err}`);
-          });
-      }
-    }
-
-    // res.status();
-  } catch (error) {
-    console.log("trycatch error in AdmainMechRegister block", error);
-  }
-
-  // res.send("ok");
-};
 module.exports = {
   userLoginHandler,
   userRegisterHandler,
   userGoogleAuthHandler,
+  userGoogleAuthRegisterHandler,
   userMechanicLogin,
   AdminLogin,
-  AdminMechRegister,
 };

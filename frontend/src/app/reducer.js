@@ -14,20 +14,21 @@ export const login = (
     case "USER_LOGIN_FAIL":
       return { ...state, error: true, message: action.payload, loding: false };
     case "USER_LOGIN_SUCCESS":
-      if (action.payload !== undefined) {
+      if (action.payload === undefined) {
+        return {
+          ...state,
+          loading: false,
+          error: false,
+        };
+      } else {
         const user = JSON.stringify(action.payload);
         localStorage.setItem("RSA", user);
+
         return {
           ...state,
           loding: false,
           error: false,
           token: action.payload.token,
-        };
-      } else {
-        return {
-          ...state,
-          loading: false,
-          error: false,
         };
       }
 
@@ -41,14 +42,17 @@ export const login = (
   }
 };
 
-export const test2 = (state = {}, action) => {
+export const myLocation = (
+  state = { lat: null, lng: null, locationName: "" },
+  action
+) => {
   switch (action.type) {
-    case "value":
-      break;
+    case "SET_USER_COOD":
+      return { ...state, ...action.payload };
 
     default:
       return state;
   }
 };
 
-export default test2;
+export default myLocation;

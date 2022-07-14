@@ -9,7 +9,11 @@ import Login from "./component/Login";
 import NoMatch from "./Pages/NoMatch";
 import Problem from "./component/UserQuery";
 import MechanicLogin from "./component/MechanicLogin";
-import Admin from "./Pages/Admin";
+import Admin from "./Pages/MechReg";
+import AllClients from "./component/AllClients";
+import AllMechanics from "./component/AllMechanics";
+import AllQuery from "./component/AllQuery";
+import MechReg from "./Pages/MechReg";
 
 function App() {
   return (
@@ -30,7 +34,13 @@ function App() {
             <Route path="Chat" element={<Chat />} />
             <Route path="Problem" element={<Problem />} />
           </Route>
-          <Route path="/Admin" element={<Admin />} />
+          <Route path="/Admin" element={<Admin />}>
+            <Route index element={<Navigate to="userProblem" replace />} />
+            <Route path="Clients" element={<AllClients />} />
+            <Route path="Mechanics" element={<AllMechanics />} />
+            <Route path="userProblem" element={<AllQuery />} />
+            <Route path="regMech" element={<MechReg />} />
+          </Route>
 
           <Route path="*" element={<NoMatch />} />
         </Routes>

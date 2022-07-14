@@ -32,7 +32,7 @@ function GoogleAuth() {
         clientId={clientId}
         buttonText="Sign In"
         onSuccess={async (res) => {
-          console.log(res.profileObj);
+          // console.log(res.profileObj);
 
           dispatch({ type: "USER_LOGIN_REQUEST" });
           await axios
