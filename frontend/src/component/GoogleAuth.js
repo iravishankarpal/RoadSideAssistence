@@ -10,8 +10,9 @@ const GoogleAuthContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
-function GoogleAuth() {
+function GoogleAuth({ url }) {
   const dispatch = useDispatch();
+  // console.log(url);
 
   const clientId =
     "91269092486-rel0vhark3mdfiln5si06506lge1t397.apps.googleusercontent.com";
@@ -21,6 +22,7 @@ function GoogleAuth() {
       gapi.client.init({ clientId: clientId, scope: "" });
     };
     gapi.load("client:auth2", start);
+    return console.clear();
   }, []);
 
   return (
@@ -33,10 +35,10 @@ function GoogleAuth() {
         buttonText="Sign In"
         onSuccess={async (res) => {
           // console.log(res.profileObj);
-
+          // "UserAuth/GoogleAuth" default route
           dispatch({ type: "USER_LOGIN_REQUEST" });
           await axios
-            .post("UserAuth/GoogleAuth", {
+            .post(url, {
               email: res.profileObj.email,
               name: res.profileObj.givenName,
               pic: res.profileObj.imageUrl,

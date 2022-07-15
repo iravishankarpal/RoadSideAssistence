@@ -75,13 +75,14 @@ const userGoogleAuthHandler = async (req, res) => {
           });
         })
         .catch((err) => {
-          res.status(404).send(` you email is not found`);
+          res.status(404).send(` you email is not found please register`);
         });
     }
   } catch (error) {
     console.log("try catch in userGoogleAuthHandler block", error);
   }
 };
+
 const userGoogleAuthRegisterHandler = async (req, res) => {
   try {
     const { name, email, pic } = req.body;
@@ -98,7 +99,7 @@ const userGoogleAuthRegisterHandler = async (req, res) => {
           });
         })
         .catch(async (err) => {
-          await User.create({ name, email, pic, password, PhoneNo })
+          await User.create({ name, email, pic })
             .then((user) => {
               console.log(user);
               res.status(200).send({
@@ -124,19 +125,20 @@ const Mechanic = require("../Model/MechanicMode");
 const userMechanicLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // console.log("Mech, password :", typeof Mech, password);
+    // console.log("email, password :", email, password);
     if (email && password === "") {
       res.status(409).send("fields cannot be empty");
     } else {
       const userExit = await Mechanic.findOne({ email });
+      // console.log("userExit :", userExit);
 
       if (userExit) {
         if (userExit.password === password) {
           res.status(200).send({
             Name: userExit.name,
             email: userExit.email,
-            pic: userExit.pic,
-            PhoneNo: PhoneNo,
+            // pic: userExit.pic,
+            PhoneNo: userExit.PhoneNo,
             // Token: generateToken(userExit._id),
             //   timestamp: user.createdAt,
           });

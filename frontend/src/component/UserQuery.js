@@ -10,12 +10,11 @@ import Loding from "./Loding";
 
 function Problem() {
   const Location = useRef();
-  const PhoneNo = useRef();
   const VehicalNo = useRef();
   const VehicalType = useRef();
   const VehicalProblem = useRef();
 
-  const { error, loding } = useSelector((state) => state.login);
+  const { error, loding, token } = useSelector((state) => state.login);
   const { lat, lng } = useSelector((state) => state.myLocation);
   const dispatch = useDispatch();
 
@@ -24,28 +23,39 @@ function Problem() {
       // console.log(Location.current.value);
       e.preventDefault();
       if (
-        (PhoneNo.current.value &&
-          VehicalNo.current.value &&
+        (VehicalNo.current.value &&
           VehicalProblem.current.value &&
           VehicalType.current.value) !== ""
       ) {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
         await axios
-          .post("/User/Query", {
-            PhoneNo: PhoneNo.current.value,
-            Location: Location.current.value,
-            VehicalNo: VehicalNo.current.value,
-            VehicalType: VehicalType.current.value,
-            VehicalProblem: VehicalProblem.current.value,
-            lat,
-            lng,
-          })
+          .post(
+            "/User/Query",
+            {
+              Location: Location.current.value,
+              VehicalNo: VehicalNo.current.value,
+              VehicalType: VehicalType.current.value,
+              VehicalProblem: VehicalProblem.current.value,
+              lat,
+              lng,
+            },
+            config
+          )
           .then((res) => {
-            dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
+            dispatch({ type: "REQUEST_SUCCESS", payload: res.data });
           })
           .catch((err) => {
+            // console.log(err.response.message, err.response.data, err.message);
             dispatch({
               type: "USER_LOGIN_FAIL",
-              payload: err.message,
+              payload: err.response.data || "axios eror",
             });
           });
       } else {
@@ -57,7 +67,7 @@ function Problem() {
     } catch (error) {
       dispatch({
         type: "USER_LOGIN_FAIL",
-        payload: error.response.data,
+        payload: "error try catch in userQuery page",
       });
       console.log("error try catch in userQuery page", error);
     }
@@ -71,7 +81,6 @@ function Problem() {
       >
         {error && <Error>{error.message}</Error>}
         {loding && <Loding />}
-        
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Location</Form.Label>
           <Form.Control
@@ -81,8 +90,12 @@ function Problem() {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Vehical Type or number of wheel</Form.Label>
-          <Form.Control type="number" ref={VehicalType} placeholder=" 3 " />
+          <Form.Label>Vehical Type </Form.Label>
+          <Form.Control
+            type="text"
+            ref={VehicalType}
+            placeholder=" truck ,car,auto "
+          />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Vehical No</Form.Label>

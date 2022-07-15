@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const MechanicModel = mongoose.Schema(
   {
-    Mech: {
+    name: {
       type: String,
       require: true,
     },
@@ -13,7 +13,7 @@ const MechanicModel = mongoose.Schema(
       type: String,
       require: true,
     },
-    password: {
+    PhoneNo: {
       type: String,
       require: true,
     },

@@ -4,16 +4,18 @@ const userQueryModel = mongoose.Schema(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
+      required: true,
       ref: "User",
     },
 
     VehicalNo: {
-      type: sting,
+      type: String,
       require: true,
     },
     VehicalType: {
       type: String,
-      require: true,
+      // require: true,
+      default: "two",
     },
     VehicalProblem: {
       type: String,
@@ -34,5 +36,5 @@ const userQueryModel = mongoose.Schema(
   }
 );
 
-const userQuery = mongoose.model("Query", userQueryModel);
-module.exports = userQuery;
+const Query = mongoose.model("Query", userQueryModel);
+module.exports = Query;

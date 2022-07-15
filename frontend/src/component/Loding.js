@@ -10,7 +10,7 @@ const LodingBtn = styled(Button)`
 function Loding() {
   return (
     <div>
-      <LodingBtn className="container " variant="success" disabled>
+      <LodingBtn className="container " variant="light" disabled>
         <Spinner
           as="span"
           animation="grow"

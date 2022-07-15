@@ -64,7 +64,7 @@ function Login() {
           Login
         </Button>
         <br className="m-3" />
-        <GoogleAuth className="mt-3" />
+        <GoogleAuth className="mt-3" url={"UserAuth/GoogleAuth"} />
       </Form>
     </div>
   );

@@ -1,30 +1,25 @@
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { memo } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Error from "./Error";
 import Loding from "./Loding";
-import IsLogin from "./IsLogin";
-import GoogleAuth from "./GoogleAuth";
 
-function SingUp() {
+function MechReg() {
   const name = useRef();
   const email = useRef();
   const password = useRef();
   const rePassword = useRef();
   const PhoneNo = useRef();
-  const Pic = useRef();
 
   const { error, loding } = useSelector((state) => state.login);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: "USER_LOGIN_SUCCESS" });
+  }, [dispatch]);
 
-  IsLogin();
   const handleSingup = async (e) => {
-    // console.log(
-    //   "password.current.vaule == rePassword.current.value :",
-    //   password.current.value,
-    //   rePassword.current.value
-    // );
     try {
       e.preventDefault();
       if (
@@ -35,18 +30,20 @@ function SingUp() {
       ) {
         if (password.current.value === rePassword.current.value) {
           await axios
-            .post("/UserAuth/Register", {
+            .post("/admin/AdminMechRegister", {
               name: name.current.value,
               email: email.current.value,
               password: password.current.value,
-              pic: Pic.current.value,
               PhoneNo: PhoneNo.current.value,
             })
             .then((res) => {
-              dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
+              dispatch({ type: "REQUEST_SUCCESS", payload: res.data });
             })
             .catch((err) =>
-              dispatch({ type: "USER_LOGIN_FAIL", payload: err.response.data })
+              dispatch({
+                type: "USER_LOGIN_FAIL",
+                payload: err.response.data || "error in submmiting",
+              })
             );
         } else {
           dispatch({
@@ -61,17 +58,18 @@ function SingUp() {
         });
       }
     } catch (error) {
-      dispatch({ type: "USER_LOGIN_FAIL", payload: error.response.data });
+      dispatch({ type: "USER_LOGIN_FAIL", payload: error });
       console.log(error);
     }
   };
   return (
-    <div>
+    <div className="p-3">
       <Form onSubmit={(e) => handleSingup(e)}>
         {error && <Error>{error.message}</Error>}
         {loding && <Loding />}
+        <h1>Mechanic Registation</h1>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Name </Form.Label>
+          <Form.Label>mechanic Name </Form.Label>
           <Form.Control type="Name" ref={name} placeholder="Enter name" />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -124,15 +122,15 @@ function SingUp() {
             email.current.value = "";
             password.current.value = "";
             rePassword.current.value = "";
-            Pic.current.value = "";
+
+            PhoneNo.current.value = "";
           }}
         >
           Reset
         </Button>{" "}
-        <GoogleAuth url={"UserAuth/GoogleAuthRegister"}></GoogleAuth>
       </Form>
     </div>
   );
 }
 
-export default SingUp;
+export default memo(MechReg);

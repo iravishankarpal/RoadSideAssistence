@@ -9,10 +9,18 @@ export const login = (
   action
 ) => {
   switch (action.type) {
+    case "REQUEST_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: true,
+        message: action.payload || "ok",
+      };
     case "USER_LOGIN_REQUEST":
       return { ...state, loding: true };
     case "USER_LOGIN_FAIL":
       return { ...state, error: true, message: action.payload, loding: false };
+
     case "USER_LOGIN_SUCCESS":
       if (action.payload === undefined) {
         return {

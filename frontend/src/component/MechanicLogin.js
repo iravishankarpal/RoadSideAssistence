@@ -7,7 +7,7 @@ import Error from "./Error";
 import Loding from "./Loding";
 
 function MechanicLogin() {
-  const Mech = useRef();
+  const email = useRef();
   const password = useRef();
   const dispatch = useDispatch();
   const navigation = useNavigate();
@@ -17,13 +17,13 @@ function MechanicLogin() {
   const handleLogin = async (e) => {
     try {
       e.preventDefault();
-      if ((password.current.value && Mech.current.value) !== "") {
+      if ((password.current.value && email.current.value) !== "") {
         e.preventDefault();
         dispatch({ type: "USER_LOGIN_REQUEST" });
-        if (Mech.current.value === "admin") {
+        if (email.current.value === "admin") {
           await axios
             .post("UserAuth/AdminLogin", {
-              Mech: Mech.current.value,
+              email: email.current.value,
               password: password.current.value,
             })
             .then(() => {
@@ -40,12 +40,13 @@ function MechanicLogin() {
         } else {
           await axios
             .post("UserAuth/MechanicLogin", {
-              Mech: Mech.current.value,
+              email: email.current.value,
               password: password.current.value,
             })
             .then((res) => {
-              console.log(res.data);
+              // console.log(res.data);
               dispatch({ type: "USER_LOGIN_SUCCESS", payload: res.data });
+              navigation("/mechanicPage");
             })
             .catch((err) => {
               dispatch({
@@ -70,8 +71,8 @@ function MechanicLogin() {
         {error && <Error>{error.message}</Error>}
         {loding && <Loding />}
         <Form.Group className="mb-3" controlId="formBasicMech">
-          <Form.Label>user id </Form.Label>
-          <Form.Control type="text" ref={Mech} placeholder="Enter user id" />
+          <Form.Label>user id or email</Form.Label>
+          <Form.Control type="text" ref={email} placeholder="Enter user id" />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">

@@ -1,39 +1,48 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { Link, Outlet } from "react-router-dom";
 import styled from "styled-components";
-import MechReg from "./MechReg";
-
+// import Error from "../component/Error";
+// import Loding from "../component/Loding";
+import MechReg from "../component/MechReg";
+// import MechReg from "./MechReg";
 const LinkTo = styled(Link)`
   text-decoration: none;
   padding: 0.2rem;
   color: black;
   font-size: larger;
 `;
+const AdminLink = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  > Button {
+    margin-inline: 0.3rem;
+  }
+  /* background-color: red; */
+`;
 function Admin() {
   return (
     <>
-      <div className="row">
+      <AdminLink>
         <LinkTo to="Clients">
-          <Button variant="dark" disabled>
-            All Client
-          </Button>
+          <Button variant="dark">All Client</Button>
         </LinkTo>
+
         <LinkTo to="Mechanics">
-          <Button variant="success" disabled>
-            ALL mechanic
-          </Button>
+          <Button variant="success">ALL mechanic</Button>
         </LinkTo>
-        <LinkTo to="userProblem">
-          <Button variant="warning" disabled>
-            All Query
-          </Button>
+        <LinkTo to="Querys">
+          <Button variant="warning">All Query</Button>
         </LinkTo>
-        <LinkTo to="regMech">
-          <Button variant="light" disabled>
-            Register Mechanic
-          </Button>
-        </LinkTo>
-        <MechReg />
+      </AdminLink>
+      <div className="row">
+        <div className="col-md-3">
+          <MechReg></MechReg>
+        </div>
+        <div className="col-md-9">
+          <Outlet />
+        </div>
       </div>
     </>
   );
