@@ -17,7 +17,7 @@ const protect = async (req, res, next) => {
 
       req.user = await User.findById(decoded.id).select("-password");
 
-      console.log("decoded req.user :", req.user, decoded.id);
+      // console.log("decoded req.user :", req.user, decoded.id);
       next();
     }
 
@@ -30,7 +30,3 @@ const protect = async (req, res, next) => {
 };
 
 module.exports = protect;
-
-const name = "hellow";
-
-console.log(name);

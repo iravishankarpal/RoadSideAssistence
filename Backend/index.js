@@ -35,7 +35,9 @@ app.use(cors({ origin: "*" }));
 const { userAuthRoutes } = require("./Routes/UserAuthRoute");
 const { userQuery } = require("./Routes/UserQueryRoute");
 const { admin } = require("./Routes/AdminRoutes");
+const { mechanicRoute } = require("./Routes/MechanicRoute");
 
 app.use("/UserAuth", userAuthRoutes);
 app.use("/User", userQuery);
 app.use("/admin", admin);
+app.use("/MechanicOperation", mechanicRoute);

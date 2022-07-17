@@ -12,6 +12,8 @@ const submitQuery = async (req, res) => {
       VehicalType,
       VehicalProblem,
       sender: req.user._id,
+      name: req.user.name,
+      PhoneNo: req.user.PhoneNo,
     })
       .then((x) => {
         // console.log("new user query", x);

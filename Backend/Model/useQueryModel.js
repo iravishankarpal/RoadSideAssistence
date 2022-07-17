@@ -30,6 +30,16 @@ const userQueryModel = mongoose.Schema(
     lng: {
       type: Number,
     },
+    name: {
+      type: String,
+    },
+    PhoneNo: {
+      type: Number,
+    },
+    status: {
+      type: String,
+      default: "pending",
+    },
   },
   {
     timestamp: true,

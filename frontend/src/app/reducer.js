@@ -9,6 +9,8 @@ export const login = (
   action
 ) => {
   switch (action.type) {
+    case "QUERY_DELETE":
+      return { ...state, message: action.payload };
     case "REQUEST_SUCCESS":
       return {
         ...state,

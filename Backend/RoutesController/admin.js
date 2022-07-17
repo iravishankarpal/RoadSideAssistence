@@ -70,4 +70,24 @@ const allQuery = async (req, res) => {
     console.log(error);
   }
 };
-module.exports = { AdminMechRegister, allUser, allMechanic, allQuery };
+
+const DeleteQuery = async (req, res) => {
+  try {
+    await Query.deleteOne({ _id: req.params.id })
+      .then((x) => {
+        res.status(200).send(`query deleted `);
+      })
+      .catch((x) => {
+        res.status(404).send(`error query while ${req.params.id} `);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+module.exports = {
+  AdminMechRegister,
+  allUser,
+  allMechanic,
+  allQuery,
+  DeleteQuery,
+};
