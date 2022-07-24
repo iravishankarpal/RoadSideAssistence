@@ -1,14 +1,29 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Button, Table } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import Error from "../component/Error";
-import Loding from "../component/Loding";
+import { useDispatch } from "react-redux";
+// import Chat from "../component/Chat";
+// import Error from "../component/Error";
+// import Loding from "../component/Loding";
+import MechanicChat from "../component/MechanicChat";
+import styled from "styled-components";
+const Center = styled.div`
+  display: flex;
+  /* background-color: red; */
+  flex-direction: column;
+  height: 90vh;
+  padding: 1rem;
+  justify-content: center;
+  MechanicChat {
+    min-height: 90%;
+  }
+`;
 function MechanicPage() {
   const [client, setClient] = useState([]);
-  const { error, loding } = useSelector((state) => state.login);
+  // const { error, loding } = useSelector((state) => state.login);
 
   const dispatch = useDispatch();
+  const [currentUser, setcurrentUser] = useState({});
   var fetchClients = async () => {
     dispatch({ type: "REQUEST_START" });
     await axios
@@ -45,15 +60,15 @@ function MechanicPage() {
       });
   };
   return (
-    <div>
-      <div>
+    <div className="row">
+      <div className="col-md-9 px-3">
         <Button variant="light" onClick={() => fetchClients()}>
           {" "}
           LOAD DATA
         </Button>
         <span>
-          {error && <Error>{error.message}</Error>}
-          {loding && <Loding />}
+          {/* {error && <Error>{error.message}</Error>}
+          {loding && <Loding />} */}
         </span>
         <Table striped bordered hover>
           <thead>
@@ -67,6 +82,8 @@ function MechanicPage() {
               <th>latitude</th>
               <th>longitude</th>
               <th>Status</th>
+              <th>Chat</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -87,9 +104,10 @@ function MechanicPage() {
                     <td>{x.lng}</td>
                     <td>{x.status}</td>
                     <td
+                      style={{ cursor: "pointer" }}
                       onClick={() => {
-                        // TogleChatbox(x.sender)
-                        // CharacterData()
+                        // console.log(x.name);
+                        setcurrentUser(x);
                       }}
                     >
                       Chat
@@ -110,6 +128,10 @@ function MechanicPage() {
           </tbody>
         </Table>
       </div>
+      <Center className=" col-md-3 ">
+        <MechanicChat UserONChat={currentUser}></MechanicChat>
+        {/* <Chat UserONChat={currentUser}></Chat> */}
+      </Center>
     </div>
   );
 }

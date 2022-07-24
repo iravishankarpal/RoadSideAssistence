@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Error from "./Error";
 import Loding from "./Loding";
 import IsLogin from "./IsLogin";
-import GoogleAuth from "./GoogleAuth";
+// import GoogleAuth from "./GoogleAuth";
 
 function SingUp() {
   const name = useRef();
@@ -129,7 +129,7 @@ function SingUp() {
         >
           Reset
         </Button>{" "}
-        <GoogleAuth url={"UserAuth/GoogleAuthRegister"}></GoogleAuth>
+        {/* <GoogleAuth url={"UserAuth/GoogleAuthRegister"}></GoogleAuth> */}
       </Form>
     </div>
   );

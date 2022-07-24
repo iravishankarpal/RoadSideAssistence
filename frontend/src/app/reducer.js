@@ -5,6 +5,9 @@ export const login = (
     token: localStorage.getItem("RSA")
       ? JSON.parse(localStorage.getItem("RSA")).token
       : null,
+    user: localStorage.getItem("RSA")
+      ? JSON.parse(localStorage.getItem("RSA"))
+      : null,
   },
   action
 ) => {

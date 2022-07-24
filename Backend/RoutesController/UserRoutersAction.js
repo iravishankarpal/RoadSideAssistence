@@ -14,6 +14,8 @@ const userLoginHandler = async (req, res) => {
             name: userExit.name,
             email: userExit.email,
             pic: userExit.pic,
+            PhoneNo: userExit.PhoneNo,
+            _id: userExit._id,
             token: generateToken(userExit._id),
             //   timestamp: user.createdAt,
           });
@@ -47,6 +49,7 @@ const userRegisterHandler = async (req, res) => {
               pic: user.pic,
               PhoneNo: user.PhoneNo,
               token: generateToken(user._id),
+              _id: user._id,
             });
           })
           .catch((err) => {
@@ -135,7 +138,7 @@ const userMechanicLogin = async (req, res) => {
       if (userExit) {
         if (userExit.password === password) {
           res.status(200).send({
-            Name: userExit.name,
+            name: userExit.name,
             email: userExit.email,
             // pic: userExit.pic,
             PhoneNo: userExit.PhoneNo,
@@ -155,12 +158,12 @@ const userMechanicLogin = async (req, res) => {
 };
 const AdminLogin = (req, res) => {
   try {
-    const { Mech, password } = req.body;
-    // console.log("Mech, password  :", Mech, password);
-    if (Mech && password === "") {
+    const { email, password } = req.body;
+    console.log("email, password  :", email, password);
+    if (email && password === "") {
       res.status(409).send("fields cannot be empty");
     } else {
-      if (Mech === "admin" && password === "password") {
+      if (email === "admin" && password === "password") {
         res.status(200).send("ok");
       } else {
         res.status(409).send("wrong user name or password");
