@@ -68,6 +68,8 @@ app.use("/UserAuth", userAuthRoutes);
 app.use("/User", userQuery);
 app.use("/admin", admin);
 app.use("/MechanicOperation", mechanicRoute);
+const paymentRoutes = require("./Routes/payment");
+app.use("/payment", paymentRoutes);
 // app.use(cors());
 
 // ---------------deployment

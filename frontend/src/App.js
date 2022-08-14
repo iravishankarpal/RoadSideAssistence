@@ -14,6 +14,8 @@ import AllClients from "./component/AllClients";
 import AllMechanics from "./component/AllMechanics";
 import AllQuery from "./component/AllQuery";
 import MechanicPage from "./Pages/MechanicPage";
+import Payment from "./component/Payment";
+import MechMap from "./Pages/MachMap";
 // import MechReg from "./Pages/MechReg";
 
 function App() {
@@ -34,6 +36,7 @@ function App() {
             <Route index element={<Navigate to="Problem" replace />} />
             <Route path="Chat" element={<Chat />} />
             <Route path="Problem" element={<Problem />} />
+            <Route path="pay" element={<Payment />} />
           </Route>
           <Route path="/Admin" element={<Admin />}>
             <Route index element={<Navigate to="Querys" replace />} />
@@ -49,6 +52,7 @@ function App() {
             <Route path="Querys" element={<AllQuery />} />
             {/* <Route path="regMech" element={<MechReg />} /> */}
           </Route>
+          <Route path="/MechMap/:lat/:lng/:location" element={<MechMap />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </BrowserRouter>

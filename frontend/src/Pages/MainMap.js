@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   useJsApiLoader,
   GoogleMap,
@@ -60,17 +60,23 @@ function MainMap() {
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const originRef = useRef();
   const destiantionRef = useRef();
-  const [Latitute, setLatitute] = useState(20.5937);
-  const [Longitute, setLongitute] = useState(78.9629);
+  
+  const [Latitute, setLatitute] = useState(null);
+  const [Longitute, setLongitute] = useState(null);
   const dispatch = useDispatch();
+  const [center, setcenter] = useState({ lat: Latitute, lng: Longitute });
 
   useEffect(() => {
     const currentPostion = () => {
       navigator.geolocation.getCurrentPosition((position) => {
         setLatitute(position.coords.latitude);
         setLongitute(position.coords.longitude);
-        // console.log("in main map current location");
-        // console.log(Latitute, Longitute);
+        setcenter({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        console.log("in main map current location");
+        console.log(Latitute, Longitute);
         dispatch({
           type: "SET_USER_COOD",
           payload: { lat: Latitute, lng: Longitute },
@@ -79,13 +85,11 @@ function MainMap() {
     };
     currentPostion();
   }, [Latitute, Longitute, dispatch]);
-  const center = useMemo(
-    () => ({ lat: Latitute, lng: Longitute }),
+  // const center = { lat: Latitute, lng: Longitute };
+  console.log("center :", center);
 
-    [Latitute, Longitute]
-  );
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "",
+    googleMapsApiKey: "AIzaSyBkLWVJrZjd-CO9JunPTFkg1z47TmlMvlU",
     libraries: ["places"],
   });
 
@@ -123,14 +127,13 @@ function MainMap() {
             <input type="text" ref={destiantionRef} placeholder="destination" />
           </Autocomplete>
           <div>
-            {" "}
             <span>
               <BiSubdirectoryLeft
                 onClick={() => {
                   calculateRoute();
                 }}
               ></BiSubdirectoryLeft>
-            </span>
+            </span>{" "}
             <span> Distance : {Distance} </span> <span>time : {Duration} </span>{" "}
             <span>
               <BiCurrentLocation
@@ -153,6 +156,8 @@ function MainMap() {
           }}
         >
           <Marker position={center} />
+          {console.log("directionsResponse :", directionsResponse)}
+
           {directionsResponse && (
             <DirectionsRenderer directions={directionsResponse} />
           )}
