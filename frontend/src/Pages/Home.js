@@ -54,7 +54,7 @@ function Home() {
           <div className="d-flex mb-3 ">
             <Links to="login"> Login </Links>
             <Links to="singup"> SingUp </Links>
-            <Links to="Mechanic">Cooperate</Links>
+            <Links to="Mechanic">Admin</Links>
           </div>
           <Outlet></Outlet>
         </Row>
