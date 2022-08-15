@@ -26,7 +26,7 @@ function Admin() {
     <>
       <AdminLink>
         <LinkTo to="Clients">
-          <Button variant="dark">All Client</Button>
+          <Button variant="dark">All User</Button>
         </LinkTo>
 
         <LinkTo to="Mechanics">

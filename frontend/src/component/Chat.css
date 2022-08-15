@@ -114,3 +114,10 @@
 .hide {
   opacity: 0 !important;
 }
+
+.Mechanic {
+  background-color: red;
+}
+.roomOwner {
+  background-color: blue;
+}

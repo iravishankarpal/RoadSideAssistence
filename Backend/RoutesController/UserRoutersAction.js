@@ -140,6 +140,7 @@ const userMechanicLogin = async (req, res) => {
           res.status(200).send({
             name: userExit.name,
             email: userExit.email,
+            id: userExit._id,
             // pic: userExit.pic,
             PhoneNo: userExit.PhoneNo,
             // Token: generateToken(userExit._id),

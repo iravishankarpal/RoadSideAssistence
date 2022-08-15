@@ -41,9 +41,7 @@ const userQueryModel = mongoose.Schema(
       default: "pending",
     },
   },
-  {
-    timestamp: true,
-  }
+  { timestamps: true }
 );
 
 const Query = mongoose.model("Query", userQueryModel);

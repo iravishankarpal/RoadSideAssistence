@@ -46,7 +46,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_message", (data) => {
-    socket.to(data.room).emit("receive_message", data);
+    socket.to(data.sender).emit("receive_message", data);
   });
 });
 
@@ -70,6 +70,9 @@ app.use("/admin", admin);
 app.use("/MechanicOperation", mechanicRoute);
 const paymentRoutes = require("./Routes/payment");
 app.use("/payment", paymentRoutes);
+const message = require("./Routes/message");
+app.use("/message", message);
+
 // app.use(cors());
 
 // ---------------deployment

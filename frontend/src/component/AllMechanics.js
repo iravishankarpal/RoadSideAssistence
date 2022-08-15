@@ -81,4 +81,3 @@ function AllMechanics() {
 }
 
 export default AllMechanics;
-
