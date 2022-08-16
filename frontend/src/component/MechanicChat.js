@@ -36,9 +36,9 @@ function MechanicChat({ UserONChat }) {
   const [messageList, setMessageList] = useState([]);
   const message = useRef();
   const { error, loding } = useSelector((state) => state.login);
-  var mech = JSON.parse(localStorage.getItem("RSA"));
+  // var mech = JSON.parse(localStorage.getItem("RSA"));
 
-  var user = { ...UserONChat, ...mech };
+  var user = { ...UserONChat };
   console.log(user);
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -95,7 +95,7 @@ function MechanicChat({ UserONChat }) {
       {error && <Error>{error.message}</Error>}
       {loding && <Loding />}
       <div className="chat-body">
-        <>{user.name}</>
+        <h2>{user.name}</h2>
         <ScrollToBottom className="message-container">
           {messageList.map((messageContent, i) => {
             return (
