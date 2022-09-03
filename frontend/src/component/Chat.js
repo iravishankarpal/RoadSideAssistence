@@ -9,6 +9,7 @@ import Loding from "./Loding";
 import io from "socket.io-client";
 import Error from "./Error";
 const socket = io.connect("http://localhost:9000");
+const axios = require("axios");
 const ChatBox = styled.div`
   .chat-body {
     height: 90%;
@@ -32,9 +33,6 @@ const FormTo = styled(Form)`
 `;
 
 function Chat() {
-  // console.log(UserONChat :", UserONChat);
-
-  // const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
   const message = useRef();
   const { error, loding, user } = useSelector((state) => state.login);
@@ -42,12 +40,14 @@ function Chat() {
   console.log(user);
   const sendMessage = async (e) => {
     e.preventDefault();
-    // console.log(message.current.value);
+    axios.post("/message/", {
+      content: message.current.value,
+      sender: user._id,
+    });
     if (message.current.value !== "") {
       const messageData = {
-        room: user._id,
-        author: user.name,
-        message: message.current.value,
+        sender: user._id,
+        content: message.current.value,
         id: new Date().getTime(),
         time:
           new Date(Date.now()).getHours() +
@@ -56,6 +56,7 @@ function Chat() {
       };
 
       await socket.emit("send_message", messageData);
+
       setMessageList((list) => [...list, messageData]);
       message.current.value = "";
     }
@@ -68,30 +69,31 @@ function Chat() {
     });
   }, [user._id]);
 
+  useEffect(() => {
+    axios
+      .get("/message/" + user._id)
+      .then((res) => setMessageList(res.data))
+      .catch((err) => console.error(err));
+  }, [user._id]);
   return (
     <ChatBox>
       {error && <Error>{error.message}</Error>}
       {loding && <Loding />}
       <div className="chat-body">
-        <>{user.name}</>
         <ScrollToBottom className="message-container">
-          {messageList.map((messageContent) => {
-            // console.log(messageContent);
-
+          {messageList.map((messageContent, i) => {
             return (
               <div
-                key={messageContent.id}
+                key={i}
                 className="message"
-                id={user.name === messageContent.author ? "you" : "other"}
+                id={
+                  user._id === messageContent.sender ? "roomOwner" : "Mechanic"
+                }
               >
                 <div>
                   <div className="message-content">
-                    <p>{messageContent.message}</p>
+                    <p> {messageContent.content}</p>
                   </div>
-                  {/* <div className="message-meta">
-                    <p id="time">{messageContent.time}</p>
-                    <p id="author">{messageContent.author}</p>
-                  </div> */}
                 </div>
               </div>
             );
@@ -109,7 +111,6 @@ function Chat() {
         <input
           type="text"
           ref={message}
-          // value={currentMessage}
           placeholder="Hey..."
           onChange={(event) => {
             message.current.value = event.target.value;

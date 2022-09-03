@@ -40,7 +40,7 @@ const Main = styled.div`
   background-image: cover;
 `;
 const HeroSay = styled.div`
-  font-size: 2rem;
+  font-size: 1.4rem;
   color: white;
   position: relative;
   top: 4rem;
@@ -50,7 +50,7 @@ function Home() {
     <Main>
       <Container className="container row ">
         <Row className="col-md-4 order-xl-last">
-          <Title> Quick Assistence</Title>
+          <Title>OnRoad Vehicle Breakdown Assistance </Title>
           <div className="d-flex mb-3 ">
             <Links to="login"> Login </Links>
             <Links to="singup"> SingUp </Links>

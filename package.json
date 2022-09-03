@@ -4,10 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "jest --forceExit --detectOpenHandles  --watchAll --maxWorkers=1",
     "dev": "nodemon Backend/index.js ",
     "start": "node Backend/index.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon Backend/index.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install "
+>>>>>>> f19e7bf7036624c6b07733af615b8f07d56d48b1
   },
   "keywords": [],
   "author": "",
@@ -26,6 +32,7 @@
     "mongoose": "^6.4.2",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.18",
+    "razorpay": "^2.8.3",
     "socket.io": "^4.5.1"
   },
   "devDependencies": {

@@ -13,18 +13,17 @@ function SingUp() {
   const password = useRef();
   const rePassword = useRef();
   const PhoneNo = useRef();
-  const Pic = useRef();
 
   const { error, loding } = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
   IsLogin();
   const handleSingup = async (e) => {
-    // console.log(
-    //   "password.current.vaule == rePassword.current.value :",
-    //   password.current.value,
-    //   rePassword.current.value
-    // );
+    console.log(
+      "password.current.vaule == rePassword.current.value :",
+      password.current.value,
+      rePassword.current.value
+    );
     try {
       e.preventDefault();
       if (
@@ -39,7 +38,6 @@ function SingUp() {
               name: name.current.value,
               email: email.current.value,
               password: password.current.value,
-              pic: Pic.current.value,
               PhoneNo: PhoneNo.current.value,
             })
             .then((res) => {
@@ -61,8 +59,8 @@ function SingUp() {
         });
       }
     } catch (error) {
-      dispatch({ type: "USER_LOGIN_FAIL", payload: error.response.data });
       console.log(error);
+      // dispatch({ type: "USER_LOGIN_FAIL", payload: error.response.data });
     }
   };
   return (
@@ -109,10 +107,7 @@ function SingUp() {
             }}
           />
         </Form.Group>
-        {/* <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Profile pic (optional)</Form.Label>
-          <Form.Control type="file" ref={Pic} placeholder="profile.png" />
-        </Form.Group> */}
+        
         <Button className="container" variant="primary" type="submit">
           Submit
         </Button>{" "}
@@ -124,7 +119,6 @@ function SingUp() {
             email.current.value = "";
             password.current.value = "";
             rePassword.current.value = "";
-            Pic.current.value = "";
           }}
         >
           Reset

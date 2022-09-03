@@ -98,12 +98,35 @@ const expressAsyncHandler = require("express-async-handler");
 const userMechanicLogin = AsyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
+<<<<<<< HEAD
   const userExit = await Mechanic.findOne({ email });
   if (!userExit) {
     return next({
       status: 400,
       msg: "user not exist please contact to company  ",
     });
+=======
+      if (userExit) {
+        if (userExit.password === password) {
+          res.status(200).send({
+            name: userExit.name,
+            email: userExit.email,
+            id: userExit._id,
+            // pic: userExit.pic,
+            PhoneNo: userExit.PhoneNo,
+            // Token: generateToken(userExit._id),
+            //   timestamp: user.createdAt,
+          });
+        } else {
+          res.status(409).send("wrong password");
+        }
+      } else {
+        res.status(409).send("user not exist please contact to company  ");
+      }
+    }
+  } catch (error) {
+    console.log("trycatch in userMechLogin", error.message);
+>>>>>>> f19e7bf7036624c6b07733af615b8f07d56d48b1
   }
   if (!(userExit.password === password)) {
     return next({

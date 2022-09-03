@@ -56,6 +56,11 @@ function Help() {
               Chat
             </Button>
           </LinkTo>
+          <LinkTo to="pay">
+            <Button variant="success" disabled>
+              pay
+            </Button>
+          </LinkTo>
           <br className="mb-1 " />
           <Outlet> </Outlet>
         </PopUpBox>

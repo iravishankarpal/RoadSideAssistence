@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 // import Loding from "../component/Loding";
 import MechanicChat from "../component/MechanicChat";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 const Center = styled.div`
   display: flex;
   /* background-color: red; */
@@ -20,6 +21,7 @@ const Center = styled.div`
 `;
 function MechanicPage() {
   const [client, setClient] = useState([]);
+
   // const { error, loding } = useSelector((state) => state.login);
 
   const dispatch = useDispatch();
@@ -79,8 +81,8 @@ function MechanicPage() {
               <th>VehicalType</th>
               <th>VehicalProblem</th>
               <th>location</th>
-              <th>latitude</th>
-              <th>longitude</th>
+              {/* <th>latitude</th>
+              <th>longitude</th> */}
               <th>Status</th>
               <th>Chat</th>
               <th>Delete</th>
@@ -100,8 +102,8 @@ function MechanicPage() {
                     <td>{x.VehicalType}</td>
                     <td>{x.VehicalProblem}</td>
                     <td>{x.Location}</td>
-                    <td>{x.lat}</td>
-                    <td>{x.lng}</td>
+                    {/* <td>{x.lat}</td>
+                    <td>{x.lng}</td> */}
                     <td>{x.status}</td>
                     <td
                       style={{ cursor: "pointer" }}
@@ -120,6 +122,10 @@ function MechanicPage() {
                       }}
                     >
                       Delete
+                    </td>
+
+                    <td>
+                      <Link to={`/MechMap/${x.lat}/${x.lng}/${x.Location}`}>redirect</Link>
                     </td>
                   </tr>
                 );
