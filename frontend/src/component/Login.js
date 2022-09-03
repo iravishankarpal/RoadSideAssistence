@@ -5,7 +5,7 @@ import Loding from "./Loding";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import IsLogin from "./IsLogin";
-// import GoogleAuth from "./GoogleAuth";
+import GoogleAuth from "./GoogleAuth";
 function Login() {
   const email = useRef();
   const password = useRef();
@@ -64,7 +64,7 @@ function Login() {
           Login
         </Button>
         <br className="m-3" />
-        {/* <GoogleAuth className="mt-3" url={"UserAuth/GoogleAuth"} /> */}
+        <GoogleAuth className="mt-3" url={"UserAuth/GoogleAuth"} />
       </Form>
     </div>
   );

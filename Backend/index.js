@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 var colors = require("colors");
+const expressAsyncHandler = require("express-async-handler");
 // const cors = require("cors");
 dotenv.config();
 const path = require("path");
@@ -12,21 +13,19 @@ var app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.use(express.json());
-//enable url encode for POST requests
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // db connection
 const conn = require("./Config/dbConfig");
 conn();
 
-// parse application/json
-app.use(bodyParser.json());
 // app.listen(port, console.log(`server is running on ${port}`));
 const chats = require("./Data");
 app.get("/data", (req, res) => {
   res.json(chats);
 });
 // console.log(`reached at the end code of node server  `);
+// chat started
 const http = require("http");
 const { Server } = require("socket.io");
 const server = http.createServer(app);
@@ -53,6 +52,8 @@ io.on("connection", (socket) => {
 server.listen(port, () => {
   console.log(`SERVER IS RUNNING on port ${port}`);
 });
+
+// chat ended
 // middlewre
 const morgan = require("morgan");
 app.use(morgan("dev"));
@@ -68,6 +69,7 @@ app.use("/UserAuth", userAuthRoutes);
 app.use("/User", userQuery);
 app.use("/admin", admin);
 app.use("/MechanicOperation", mechanicRoute);
+
 // app.use(cors());
 
 // ---------------deployment
@@ -88,3 +90,18 @@ if (process.env.NODE_ENV === "production") {
 // ____________________end of deployment
 
 app.use(notFound);
+// ==========start of global error handler================
+app.use((error, req, res, next) => {
+  console.log(` Error with ${error.status || 500}`.red.inverse, error);
+  // save in log
+
+  res.status(error.status || 500).json({
+    status: error.status || 500,
+    success: null,
+    Error: {
+      message: error.msg || "internal server error",
+    },
+  });
+});
+
+//  -------------------end of global error handler----------------
