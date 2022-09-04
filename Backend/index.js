@@ -69,13 +69,10 @@ app.use("/UserAuth", userAuthRoutes);
 app.use("/User", userQuery);
 app.use("/admin", admin);
 app.use("/MechanicOperation", mechanicRoute);
-<<<<<<< HEAD
-=======
 const paymentRoutes = require("./Routes/payment");
 app.use("/payment", paymentRoutes);
 const message = require("./Routes/message");
 app.use("/message", message);
->>>>>>> f19e7bf7036624c6b07733af615b8f07d56d48b1
 
 // app.use(cors());
 
